@@ -10,16 +10,31 @@ import java.lang.Math;
  * The Class FireDanger.
  */
 public class FireDanger {
+	
+	/** The M length. */
 	public static int MLength = 4;
+	
+	/** The MC length. */
 	public static int MCLength = 3;
+	
+	/** The MD length. */
 	public static int MDLength = 6;
+	
+	/** The precip threshold. */
 	double precipThreshold =0.1; //.10 inches of 24hr, rainfall or less is considered a rainless day
 
 	
+	/** The a. */
 	//define arrays
 	public double A[] = new double [MLength];
+	
+	/** The b. */
 	public double B[] = new double [MLength];
+	
+	/** The c. */
 	public double C[] = new double [MCLength];
+	
+	/** The d. */
 	public double D[] = new double [MDLength];
 	
 	/** The dry. */
@@ -29,6 +44,7 @@ public class FireDanger {
 	/** The wet. */
 	private 	double  wet;// wet bulb temperature
 	
+	/** The diff. */
 	private double diff; //store difference dry -wet
 	/** The isnow. */
 	private int isnow; //>0 is there is snow on the ground
@@ -153,6 +169,11 @@ public class FireDanger {
 		}
 	}
 	
+	/**
+	 * Adjust ffm herb.
+	 *
+	 * @return the double
+	 */
 	private double adjustFFMHerb() {
 		// TODO Auto-generated method stub
 		double ffm2 = ffm;
@@ -169,6 +190,11 @@ public class FireDanger {
 		return ffm2;
 	}
 
+	/**
+	 * Calculate dryng factor.
+	 *
+	 * @return the double
+	 */
 	private double calculateDryngFactor() {
 		// TODO Auto-generated method stub
 		
@@ -202,6 +228,11 @@ public class FireDanger {
 		return df2;
 	}
 
+	/**
+	 * Calculate fine fuel moisture.
+	 *
+	 * @return the double
+	 */
 	private double calculateFineFuelMoisture() {
 		// TODO Auto-generated method stub
 		//diff = dry- wet ;
@@ -220,6 +251,11 @@ public class FireDanger {
 				return ffm2;
 	}
 
+	/**
+	 * Calculate build up index.
+	 *
+	 * @return the double
+	 */
 	private double calculateBuildUpIndex() {
 		// TODO Auto-generated method stub
 		double newBuo;
@@ -228,6 +264,9 @@ public class FireDanger {
 		return newBuo;
 	}
 
+	/**
+	 * Finalize danger.
+	 */
 	private void finalizeDanger() {
 		// TODO Auto-generated method stub
 		System.out.println("IsSnow :" + isnow);
@@ -297,86 +336,177 @@ public class FireDanger {
 		this.adfm = adfm;
 	}
 
+	/**
+	 * Gets the fload.
+	 *
+	 * @return the fload
+	 */
 	public double getFload() {
 		return fload;
 	}
 
+	/**
+	 * Sets the fload.
+	 *
+	 * @param fload the new fload
+	 */
 	public void setFload(double fload) {
 		this.fload = fload;
 	}
 
+	/**
+	 * Gets the grass.
+	 *
+	 * @return the grass
+	 */
 	public double getGrass() {
 		return grass;
 	}
 
+	/**
+	 * Sets the grass.
+	 *
+	 * @param grass the new grass
+	 */
 	public void setGrass(double grass) {
 		this.grass = grass;
 	}
 
+	/**
+	 * Gets the timber.
+	 *
+	 * @return the timber
+	 */
 	public double getTimber() {
 		return timber;
 	}
 
+	/**
+	 * Sets the timber.
+	 *
+	 * @param timber the new timber
+	 */
 	public void setTimber(double timber) {
 		this.timber = timber;
 	}
 
+	/**
+	 * Gets the precip.
+	 *
+	 * @return the precip
+	 */
 	public double getPrecip() {
 		return precip;
 	}
 
+	/**
+	 * Sets the precip.
+	 *
+	 * @param precip the new precip
+	 */
 	public void setPrecip(double precip) {
 		this.precip = precip;
 	}
 
+	/**
+	 * Sets the buo.
+	 *
+	 * @param buo the new buo
+	 */
 	public void setBuo( double buo) {
 		// TODO Auto-generated method stub
 		this.buo = buo;
 		
 	}
+	
+	/**
+	 * Gets the buo.
+	 *
+	 * @return the buo
+	 */
 	public double getBuo()
 	{
 		
 		return buo;
 	}
 
+	/**
+	 * Gets the dry.
+	 *
+	 * @return the dry
+	 */
 	public double getDry() {
 		return dry;
 	}
 
 	
 
+	/**
+	 * Gets the wet.
+	 *
+	 * @return the wet
+	 */
 	public double getWet() {
 		return wet;
 	}
 
+	/**
+	 * Gets the diff.
+	 *
+	 * @return the diff
+	 */
 	public double getDiff()
 	{
 		return diff;
 		
 	}
 
+	/**
+	 * Sets the dry.
+	 *
+	 * @param dry the new dry
+	 */
 	public void setDry(double dry) {
 		// TODO Auto-generated method stub
 		this.dry = dry;
 	}
 	
 
+	/**
+	 * Sets the wet.
+	 *
+	 * @param wet the new wet
+	 */
 	public void setWet(double wet) {
 		// TODO Auto-generated method stub
 		this.wet = wet;
 	}
 
+	/**
+	 * Sets the diff.
+	 *
+	 * @param diff the new diff
+	 */
 	public void setDiff(double diff) {
 		// TODO Auto-generated method stub
 		this.diff = diff;
 		
 	}
 
+	/**
+	 * Gets the iherb.
+	 *
+	 * @return the iherb
+	 */
 	public double getIherb() {
 		return iherb;
 	}
 
+	/**
+	 * Sets the iherb.
+	 *
+	 * @param iherb the new iherb
+	 */
 	public void setIherb(double iherb) {
 		this.iherb = iherb;
 		
@@ -387,6 +517,8 @@ public class FireDanger {
 		//one more comment
 		
 		//other comment
+		
+		//comment 5
 	}
 	
 	
