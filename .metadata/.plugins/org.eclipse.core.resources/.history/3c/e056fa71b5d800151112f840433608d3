@@ -1,0 +1,162 @@
+package com.COSC603.FireDanger;
+import java.io.*; 
+import java.util.*;
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FireDanger.
+ */
+public class FireDanger {
+	
+
+	/** The dry. */
+	//Declaring input variables:
+	public 	double dry;// dry bulb temperature
+	
+	/** The wet. */
+	public static  	double  wet;// wet bulb temperature
+	
+	/** The isnow. */
+	private boolean isnow; //>0 is there is snow on the ground
+	
+	/** The precip. */
+	public static  	double  precip; //rain measure
+	
+	/** The wind. */
+	public static  	double  wind; //current wind speed in miles per hour
+	
+	/** The buo. */
+	public static  	double  buo; //last value of the buildup index
+	
+	/** The iherb. */
+	public static  	double  iherb; //current herb state of the district 1= cured;2= transition; 3 = green
+		
+		//returned values:
+		
+		/** The df. */
+		private 	double df; //drying factor
+		
+		/** The ffm. */
+		private 	double ffm; //fine fuel moisture
+		
+		/** The adfm. */
+		private   	double adfm; //adjusted (10 day lag) fuel moisture
+		
+		/** The grass. */
+		public static  	double  grass; //grass spread index
+		
+		/** The timber. */
+		public static  	double  timber; //timber spread index
+		
+		/** The fload. */
+		private  	double  fload; //fire load rating (max-hour base)
+		
+		/** The buo2. */
+		public static  	double  buo2;// build up index
+		
+		/**
+		 * Checks if is isnow.
+		 *
+		 * @return true, if is isnow
+		 */
+		public boolean isIsnow() {
+			return isnow;
+		}
+		
+		/**
+		 * Sets the isnow.
+		 *
+		 * @param isnow the new isnow
+		 */
+		public void setIsnow(boolean isnow) {
+			this.isnow = isnow;
+		}	
+		
+	
+		  
+		  
+
+		
+		
+		
+		
+	/**
+	 * Calculate fire danger.
+	 */
+	public  void calculateFireDanger() {
+		// TODO Auto-generated method stub
+		
+		 //is snow is positive, set all spread indexes to zero, estimates rain and adjust bui
+		
+	
+		  //if snow is negative or zero, calculates fine fuel moisture
+	}
+	
+	/**
+	 * Gets the df.
+	 *
+	 * @return the df
+	 */
+	public double getDf() {
+		return df;
+	}
+	
+	/**
+	 * Sets the df.
+	 *
+	 * @param df the new df
+	 */
+	public void setDf(double df) {
+		this.df = df;
+	}
+	
+	/**
+	 * Gets the ffm.
+	 *
+	 * @return the ffm
+	 */
+	public double getFfm() {
+		return ffm;
+	}
+	
+	/**
+	 * Sets the ffm.
+	 *
+	 * @param ffm the new ffm
+	 */
+	public void setFfm(double ffm) {
+		this.ffm = ffm;
+	}
+	
+	/**
+	 * Gets the adfm.
+	 *
+	 * @return the adfm
+	 */
+	public double getAdfm() {
+		return adfm;
+	}
+	
+	/**
+	 * Sets the adfm.
+	 *
+	 * @param adfm the new adfm
+	 */
+	public void setAdfm(double adfm) {
+		this.adfm = adfm;
+	}
+
+	public double getFload() {
+		return fload;
+	}
+
+	public void setFload(double fload) {
+		this.fload = fload;
+	}
+	
+	
+	
+	
+	
+
+}

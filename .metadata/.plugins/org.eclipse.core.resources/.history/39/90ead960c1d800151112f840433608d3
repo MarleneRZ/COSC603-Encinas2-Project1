@@ -1,0 +1,98 @@
+package com.COSC603.FireDanger;
+import java.io.*; 
+import java.util.*;
+public class FireIndexes {
+	public static int MLength = 4;
+	public static int MCLength = 3;
+	public static int MDLength = 6;
+
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		//System.out.println("Hello From FireDanger! main");
+		
+		
+		
+		//define arrays
+		double a[] = new double [MLength];
+		double b[] = new double [MLength];
+		double c[] = new double [MCLength];
+		double d[] = new double [MDLength];
+		
+		
+		
+		//reading data used in computing the danger ratings
+		BufferedReader reader =null;
+		String str;
+		Vector<Vector<Double>> data = new Vector<Vector<Double>>();
+		try {
+			//reader
+			//= new BufferedReader (new FileReader("C:\\Users\\Marlene\\Documents\\GitHub\\COSC603-Encinas2-Project1\\com.COSC603.FireDanger\\src\\com\\COSC603\\FireDanger\\Data.txt"));
+		
+			// retrieving data from a text file and placing into a vector of vectors called data
+			reader = new BufferedReader (new FileReader("C:\\Users\\Marlene\\Desktop\\Data.txt"));
+		
+		while((str=reader.readLine())!=null)
+			
+		{
+			String[] values = str.trim().split(",");
+			 Vector<Double> row = new Vector<Double>();
+			 
+			 //convert each row read into single values of Double type and adding them to vector called row.
+			 for(int i = 0;i < values.length;i++) {
+			       row.add(Double.parseDouble(values[i]));
+			       System.out.print(row + " ");
+			       
+			 }
+			 //placing each row read into a vector called data
+			 data.add(row);
+			 System.out.println();
+			
+			
+		}
+		reader.close();
+		
+		System.out.println("the elements of vector data are: " + data);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		Enumeration<Vector<Double>> e=data.elements();
+	//	  System.out.println("The elements of vector: " + data);
+		  while(e.hasMoreElements()){
+			  
+			  Vector<Double> row2 = new Vector<Double>(); 
+			  row2.addAll(e.nextElement());
+			  System.out.println("The elements are: " + row2);
+		  
+		  //reading each single element
+		  
+			  for (int i= 0;i < row2.size();i++)
+			  {
+				  Double dNum = row2.elementAt(i);
+				  System.out.println("The number dNum inside e are: " + dNum);
+			  }
+		 
+		  
+		}
+		  //Start calculations
+		  FireDanger fireDanger = new FireDanger();
+		  fireDanger.setIsnow(1);
+		//initializing variables
+		  fireDanger.setFfm(99.0);//ffm=99.0;
+		  fireDanger.setAdfm(99.0);// = 99.0;
+		  fireDanger.setDf(0.0); //= 0;
+		  fireDanger.setFload(0.0);// = 0;
+			
+		 
+			fireDanger.calculateFireDanger();
+	}
+}

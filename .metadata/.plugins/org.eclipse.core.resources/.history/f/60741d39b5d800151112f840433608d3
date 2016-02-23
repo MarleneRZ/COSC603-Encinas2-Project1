@@ -1,0 +1,74 @@
+package com.COSC603.FireDanger;
+import java.io.*; 
+import java.util.*;
+
+public class FireDanger {
+	
+
+	//Declaring input variables:
+	public 	double dry;// dry bulb temperature
+	public static  	double  wet;// wet bulb temperature
+	private boolean isnow; //>0 is there is snow on the ground
+	public static  	double  precip; //rain measure
+	public static  	double  wind; //current wind speed in miles per hour
+	public static  	double  buo; //last value of the buildup index
+	public static  	double  iherb; //current herb state of the district 1= cured;2= transition; 3 = green
+		
+		//returned values:
+		
+		private 	double df; //drying factor
+		private 	double ffm; //fine fuel moisture
+		private   	double adfm; //adjusted (10 day lag) fuel moisture
+		public static  	double  grass; //grass spread index
+		public static  	double  timber; //timber spread index
+		public static  	double  fload; //fire load rating (max-hour base)
+		public static  	double  buo2;// build up index
+		
+		public boolean isIsnow() {
+			return isnow;
+		}
+		public void setIsnow(boolean isnow) {
+			this.isnow = isnow;
+		}	
+		
+	
+		  
+		  
+
+		
+		
+		
+		
+	public  void calculateFireDanger() {
+		// TODO Auto-generated method stub
+		
+		 //is snow is positive, set all spread indexes to zero, estimates rain and adjust bui
+		
+	
+		  //if snow is negative or zero, calculates fine fuel moisture
+	}
+	public double getDf() {
+		return df;
+	}
+	public void setDf(double df) {
+		this.df = df;
+	}
+	public double getFfm() {
+		return ffm;
+	}
+	public void setFfm(double ffm) {
+		this.ffm = ffm;
+	}
+	public double getAdfm() {
+		return adfm;
+	}
+	public void setAdfm(double adfm) {
+		this.adfm = adfm;
+	}
+	
+	
+	
+	
+	
+
+}
