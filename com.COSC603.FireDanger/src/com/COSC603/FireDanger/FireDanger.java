@@ -20,6 +20,11 @@ public class FireDanger {
 	/** The MD length. */
 	public static int MDLength = 6;
 	
+	/**
+	 * used to measure the arrays for factors used in Formula to calculate Spread Index Grass and Timber
+	 */
+	public static int SILength = 2;
+	
 	/** The precip threshold. */
 	double precipThreshold =0.1; //.10 inches of 24hr, rainfall or less is considered a rainless day
 
@@ -37,6 +42,17 @@ public class FireDanger {
 	/** The d. */
 	public double D[] = new double [MDLength];
 	
+	/**
+	 * Arrays to store the factors used in Formula to calculate Spread Index Grass and Timber
+	 */
+	public double SpreadA[] = new double[SILength];
+	
+	/**
+	 * Arrays to store the factors used in Formula to calculate Spread Index Grass and Timber
+	 */
+	public double SpreadB[] = new double[SILength];
+	
+	
 	/** The dry. */
 	//Declaring input variables:
 	private 	double dry;// dry bulb temperature
@@ -53,7 +69,7 @@ public class FireDanger {
 	private 	double  precip; //rain measure
 	
 	/** The wind. */
-	public static  	double  wind; //current wind speed in miles per hour
+	private double wind; //current wind speed in miles per hour
 	
 	/** The buo. */
 	private  double  buo; //last value of the buildup index
@@ -165,10 +181,260 @@ public class FireDanger {
 			this.ffm= adjustFFMHerb();
 			
 			
+			//if Rain, adjust BuildUp Index (buo) for precipitation
+			if((precip -precipThreshold ) >0) 
+				
+			{
+				//precipitation exceeded 0.1 inches and we reduced the buildup index by am amount 
+				//equal to the rain fall
+				this.buo = calculateBuildUpIndex();
+				if (buo < 0)
+				{
+					buo = 0;
+				}
+			
+				
+				
+			}
+			//else 
+				
+				//if no rain, increase buo by today's drying factor to obtain the current buildup index
+				buo = buo + df;
+				
+			//Calculate the Adjusted Fuel Moisture	ADFM
+				
+				this.adfm = calculateAdjustedFuelMoisture();
+				
+			//
+				
+				//if Fine Fuel Moisture is greater than 30 percent
+				//ffm =29.0; <- this is just for a test
+				if (adfm <30)
+				{
+					
+					int i=0;//counter to grab a Spread Index element
+					
+					if ( wind < 14)
+					{
+						this.timber = calculateTimber(i);
+						this.grass = calculateGrass(i);
+						
+						if (timber <=1)
+						
+						{
+							timber = 1;
+							if (grass < 1)
+							{
+								grass = 1;
+								
+							}
+														
+						}
+													
+												
+							
+						//}
+						//this.timber =calculateTimber(i);
+					} 
+					else
+					{
+						//wind > 14
+						i++;
+						this.timber = calculateTimber(i);
+						this.grass = calculateGrass(i);
+						
+						if (grass > 99.0)
+							
+						{
+							grass = 99.0;
+							
+							if (timber> 99.00)
+							{
+								timber = 99.0;
+								
+							}
+						}
+						
+						
+							
+							
+						
+					
+					}
+					
+				
+					if (timber <= 0) //this is line 28
+							{
+								finalizeDanger();
+							}
+							else
+							{
+								//line 29
+								if (buo <= 0)
+								{
+									finalizeDanger();
+								}
+								else 
+								{
+									this.fload =calculateFireLoad();
+									
+									//ensure fload is grater than 0, otherwise set it to 0
+									if (fload <=0)
+									{
+										fload = 0.0;
+										
+									}
+									else
+									{
+										fload = Math.pow(10.0, fload);
+										
+									}
+									finalizeDanger();
+									
+								}
+							}
+					
+				}
+					
+				else 
+				if (ffm >= 30)
+				{
+					//Set grass and Timer Spread Index to 1
+					grass = 1;
+					timber =1;
+					finalizeDanger();
+					
+					
+				}
+				else //if ffm < 30
+				{
+					timber =1;
+					
+					//test to see if Wind speed is greater than 14 mph
+					
+					int i=0;//counter to grab a Spread Index element
+					
+					if ( wind < 14)
+					{
+						this.grass = calculateGrass(i);
+						
+						if (timber <=1)
+						
+						{
+							timber = 1;
+							if (grass < 1)
+							{
+								grass = 1;
+								
+							}
+														
+						}
+													
+										
+							
+						//}
+						//this.timber =calculateTimber(i);
+					} 
+					else
+					{
+						//wind > 14
+						i++;
+						this.grass = calculateGrass(i);
+						
+						if (grass > 99.0)
+							
+						{
+							grass = 99.0;
+							
+							if (timber> 99.00)
+							{
+								timber = 99.0;
+								
+							}
+						}
+						
+						
+							
+							
+						
+					
+					}
+					if (timber <= 0)
+							{
+								finalizeDanger();
+							}
+							else
+							{
+								//line 29
+								if (buo <= 0)
+								{
+									finalizeDanger();
+								}
+								else 
+								{
+									this.fload =calculateFireLoad();
+									//finalizeDanger();
+									
+									//ensure fload is grater than 0, otherwise set it to 0
+									if (fload <=0)
+									{
+										fload = 0.0;
+										
+									}
+									else
+									{
+										fload = Math.pow(10.0, fload);
+										
+									}
+									finalizeDanger();
+									
+								}
+							}
+					
+					
+				}
 			
 		}
 	}
 	
+	private double calculateFireLoad() {
+		// TODO Auto-generated method stub
+		
+		
+		return 1.75* Math.log10(timber) + 0.32*Math.log10(buo) - 1.640;
+	}
+
+	private double calculateTimber(int i) {
+		// TODO Auto-generated method stub
+		
+		double timber2;
+		timber2 = this.SpreadA[i]*(wind + SpreadB[i])*Math.pow((33.0 - this.adfm),1.65) - 3;
+		
+		return timber2;
+		
+	}
+
+	private double calculateGrass(int i) {
+		// TODO Auto-generated method stub
+
+		
+		double grass2;
+		grass2 = this.SpreadA[i]*(wind + SpreadB[i])*Math.pow((33.0 - this.ffm),1.65) - 3;
+		
+		return grass2;
+		
+		
+		
+	}
+
+	private double calculateAdjustedFuelMoisture() {
+		// TODO Auto-generated method stub
+		
+		double adfm2 = 0;
+		adfm2 =  0.9*ffm + 0.5 + 9.5* Math.exp(-buo/50);
+		return adfm2;
+	}
+
 	/**
 	 * Adjust ffm herb.
 	 *
@@ -186,7 +452,7 @@ public class FireDanger {
 		
 		//add the 5% ffm for each herb stage > 1
 		if (iherb>1)
-			ffm2 = ffm2 + (iherb -1)* 0.05;
+			ffm2 = ffm2 + (iherb -1)* 5.0;
 		return ffm2;
 	}
 
@@ -245,6 +511,8 @@ public class FireDanger {
 					i++;
 				}
 				
+				
+				
 				ffm2 =  B[i]* Math.exp(A[i]*diff);
 				
 			//}
@@ -270,16 +538,25 @@ public class FireDanger {
 	private void finalizeDanger() {
 		// TODO Auto-generated method stub
 		System.out.println("IsSnow :" + isnow);
-		System.out.println("Build up Index (BUO):" + buo);
+		//System.out.println("Last Value of Build up Index (BUO):" + buo);
 		System.out.println("Precipitation (PRECIP):" + precip);
+		System.out.println("Current herb state of the district:" +  iherb);
+	
 		
 		System.out.println("Grass :" + grass);
 		System.out.println("Timber :" + timber);
 		
 		System.out.println("Wet :" + wet);
 		System.out.println("Dry :" + dry);
+		System.out.println("Wind :" + wind);
 		System.out.println("Fine Fuel Factor (FFM) :" + ffm);
 		System.out.println("Drying Factor (DF) :" + df);
+		System.out.println("Difference betwen precipiation and threshold(0.1) : " + (precip -precipThreshold) );
+		System.out.println("New BuildUp Index(BUI) based on precipitation (BUO) : " +buo);
+		System.out.println("Adjusted Fuel Moisture(ADFM) : " + adfm);
+		System.out.println("Fire Load Rating (FLOAD) : " + fload);
+		
+		
 	}
 
 	/**
@@ -521,7 +798,24 @@ public class FireDanger {
 		//comment 5
 	}
 	
-	
+	/**
+	 * 
+	 * @param x
+	 */
+	public void setWind(double wind) {
+		// TODO Auto-generated method stub
+		this.wind = wind;
+		
+	}
+
+	/**
+	 * Gets the wind.
+	 *
+	 * @return the wind
+	 */
+	public double getWind() {
+		return wind;
+	}
 	
 	
 	

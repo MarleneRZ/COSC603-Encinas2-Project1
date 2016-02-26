@@ -140,8 +140,17 @@ public class FireIndexes {
 		*/ 
 		  
 		}
-		  //Start calculations
 		 
+		  
+		  //Initializing Spread Index arrays
+		  
+		 fireDanger.SpreadA[0] = 0.01312;
+		 fireDanger.SpreadA[1] = 0.009184;
+		 fireDanger.SpreadB[0] = 6.0;
+		 fireDanger.SpreadB[1] = 14.4;
+				
+								 
+		 //Start calculations						 
 		  fireDanger.setIsnow(0);
 		//initializing variables
 		  fireDanger.setFfm(99.0);//ffm=99.0;
@@ -149,6 +158,7 @@ public class FireIndexes {
 		  fireDanger.setDf(0.0); //= 0;
 		  fireDanger.setFload(0.0);// = 0;
 		  fireDanger.setPrecip(1.0);
+		 
 		  //BUO can go between 0 and more than 100
 		  //buo>0 and < 25 is Normal
 		  //buo >=25 < 40 is Critical
@@ -163,6 +173,8 @@ public class FireIndexes {
 		   wet = fireDanger.getWet();
 		   dry = fireDanger.getDry();
 		   fireDanger.setDiff(dry - wet);
+		   fireDanger.setWind(14);
+		   
 		   
 		 
 		  //fine fuel moisture =20%
@@ -174,7 +186,7 @@ public class FireIndexes {
 		   */
 		  //dry =
 		 
-		   fireDanger.setIherb(2.0);
+		   fireDanger.setIherb(2.0); //	current herb state of the district 1= cured;2= transition; 3 = green
 		 
 			fireDanger.calculateFireDanger();
 	}
