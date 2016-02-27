@@ -1,6 +1,14 @@
+/*Copyright (c) 2016 - $(year), $(author), All rights reserved
+ * 
+ *<p>
+ **This is a reengineering work from Fortran 77 to Java to calculate the National Fire Danger ratings and Fire Load Index..
+ *this program is developed according to the Java Programming Style Guidelines and
+ *Maintainable Java code recommendation discussed in class COSC 603 - Software Testing  and Maintenance 
+ *
+ */
 package com.COSC603.FireDanger;
 
-//import java.math.BigDecimal;
+//import parameters
 
 //import java.io.*; 
 //import java.util.*;
@@ -8,102 +16,103 @@ import java.lang.Math;
 // TODO: Auto-generated Javadoc
 /**
  * The Class FireDanger.
+ * 
+ *@author   Marlene R. Encinas
+ *@version  1.0
+ *@since    February 26 2016
+ *<p>
+ *Contains all input parameters, output indexes and their corresponding methods to calculate their values
  */
 public class FireDanger {
 	
-	/** The M length. */
+	/** The M length.Define size for Array A and B */
 	public static int MLength = 4;
 	
-	/** The MC length. */
+	/** The MC length.Define size of Array C */
 	public static int MCLength = 3;
 	
-	/** The MD length. */
+	/** The MD length.Define size of Array D */
 	public static int MDLength = 6;
 	
-	/**
-	 * used to measure the arrays for factors used in Formula to calculate Spread Index Grass and Timber
-	 */
+	/** used to measure the arrays for factors used in Formula to calculate Spread Index Grass and Timber. */
 	public static int SILength = 2;
 	
-	/** The precip threshold. */
+	/** The precip threshold. .10 inches of 24hr, rainfall or less is considered a rainless day*/
 	double precipThreshold =0.1; //.10 inches of 24hr, rainfall or less is considered a rainless day
 
 	
-	/** The a. */
+	/** The array A.Its values  are used in computing the Fine Fuel Moisture as factor A */
 	//define arrays
 	public double A[] = new double [MLength];
 	
-	/** The b. */
+	/** The B.Its values  are used in computing the Fine Fuel Moisture as factor B*/
 	public double B[] = new double [MLength];
 	
-	/** The c. */
+	/** The array C.Identifies a range when computing the Fine Fuel Moisture as factor C */
 	public double C[] = new double [MCLength];
 	
-	/** The d. */
+	/** The array D.Identifies a range when computing the Fine Fuel Moisture as factor D */
 	public double D[] = new double [MDLength];
 	
-	/**
-	 * Arrays to store the factors used in Formula to calculate Spread Index Grass and Timber
-	 */
+	/** Arrays to store the factors used in Formula to calculate Spread Index Grass and Timber. */
 	public double SpreadA[] = new double[SILength];
 	
-	/**
-	 * Arrays to store the factors used in Formula to calculate Spread Index Grass and Timber
-	 */
+	/** Arrays to store the factors used in Formula to calculate Spread Index Grass and Timber. */
 	public double SpreadB[] = new double[SILength];
 	
 	
-	/** The dry. */
+	/** The dry. dry bulb temperature*/
 	//Declaring input variables:
 	private 	double dry;// dry bulb temperature
 	
-	/** The wet. */
+	/** The wet.wet bulb temperature */
 	private 	double  wet;// wet bulb temperature
 	
-	/** The diff. */
+	/** The diff. store difference dry -wet */
 	private double diff; //store difference dry -wet
-	/** The isnow. */
+	
+	/** The isnow. 1 is there is snow on the ground , 0 is no snow*/
 	private int isnow; //>0 is there is snow on the ground
 	
-	/** The precip. */
+	/** The precip.rain measure */
 	private 	double  precip; //rain measure
 	
-	/** The wind. */
+	/** The wind. current wind speed in miles per hour*/
 	private double wind; //current wind speed in miles per hour
 	
-	/** The buo. */
+	/** The buo. last value of the buildup index*/
 	private  double  buo; //last value of the buildup index
 	
-	/** The iherb. */
+	/** The iherb.current herb state of the district 1= cured;2= transition; 3 = green */
 	private  	double  iherb; //current herb state of the district 1= cured;2= transition; 3 = green
 		
 		//returned values:
 		
-		/** The df. */
+		/** The df. drying factor*/
 		private 	double df; //drying factor
 		
-		/** The ffm. */
+		/** The ffm. fine fuel moisture*/
 		private 	double ffm; //fine fuel moisture
 		
-		/** The adfm. */
+		/** The adfm.adjusted (10 day lag) fuel moisture */
 		private   	double adfm; //adjusted (10 day lag) fuel moisture
 		
-		/** The grass. */
+		/** The grass. grass spread index*/
 		private  	double  grass; //grass spread index
 		
-		/** The timber. */
+		/** The timber. timber spread index */
 		private 	double  timber; //timber spread index
 		
-		/** The fload. */
+		/** The fload. fire load rating (max-hour base)*/
 		private  	double  fload; //fire load rating (max-hour base)
 		
-		/** The buo2. */
-		public static  	double  buo2;// build up index
+		///** The buo2. */
+	//	public static  	double  buo2;// build up index
 		
 		/**
 		 * Checks if is isnow.
 		 *
-		 * @return true, if is isnow
+		 * @return 1, if is isnow
 		 */
 		public int isIsnow() {
 			return isnow;
@@ -118,14 +127,7 @@ public class FireDanger {
 			this.isnow = isnow;
 		}	
 		
-	
-		  
-		  
-
-		
-		
-		
-		
+			
 	/**
 	 * Calculate fire danger.
 	 */
@@ -133,8 +135,9 @@ public class FireDanger {
 		// TODO Auto-generated method stub
 		
 		
-		System.out.println("inside calculateFireDanger");
-		 //if snow is positive, set all spread indexes to zero, estimates rain and adjust bui
+		//System.out.println("inside calculateFireDanger");
+		 
+		//if snow is positive, set all spread indexes to zero, estimates rain and adjust bui
 		if (isnow > 0)
 		{
 			//set grass to zero, set timber to zero
@@ -233,8 +236,7 @@ public class FireDanger {
 													
 												
 							
-						//}
-						//this.timber =calculateTimber(i);
+						
 					} 
 					else
 					{
@@ -329,11 +331,7 @@ public class FireDanger {
 							}
 														
 						}
-													
-										
-							
-						//}
-						//this.timber =calculateTimber(i);
+
 					} 
 					else
 					{
@@ -353,10 +351,6 @@ public class FireDanger {
 							}
 						}
 						
-						
-							
-							
-						
 					
 					}
 					if (timber <= 0)
@@ -373,7 +367,7 @@ public class FireDanger {
 								else 
 								{
 									this.fload =calculateFireLoad();
-									//finalizeDanger();
+									
 									
 									//ensure fload is grater than 0, otherwise set it to 0
 									if (fload <=0)
@@ -397,6 +391,12 @@ public class FireDanger {
 		}
 	}
 	
+	/**
+	 * Calculate fire load.
+	 * Uses timber and buo
+	 *
+	 * @return the double fire load fload
+	 */
 	private double calculateFireLoad() {
 		// TODO Auto-generated method stub
 		
@@ -404,6 +404,12 @@ public class FireDanger {
 		return 1.75* Math.log10(timber) + 0.32*Math.log10(buo) - 1.640;
 	}
 
+	/**
+	 * Calculate timber.
+	 *
+	 * @param i the element position in Array A and B to be used in calculation
+	 * @return the double timber
+	 */
 	private double calculateTimber(int i) {
 		// TODO Auto-generated method stub
 		
@@ -414,6 +420,12 @@ public class FireDanger {
 		
 	}
 
+	/**
+	 * Calculate grass.
+	 *
+	 * @param i theelement position in Array A and B to be used in calculation
+	 * @return the double grass
+	 */
 	private double calculateGrass(int i) {
 		// TODO Auto-generated method stub
 
@@ -427,6 +439,11 @@ public class FireDanger {
 		
 	}
 
+	/**
+	 * Calculate adjusted fuel moisture.
+	 *
+	 * @return the double adjusted fuel moisture
+	 */
 	private double calculateAdjustedFuelMoisture() {
 		// TODO Auto-generated method stub
 		
@@ -438,7 +455,7 @@ public class FireDanger {
 	/**
 	 * Adjust ffm herb.
 	 *
-	 * @return the double
+	 * @return the double Fuel Moisture adjusted based on herb stage
 	 */
 	private double adjustFFMHerb() {
 		// TODO Auto-generated method stub
@@ -459,7 +476,7 @@ public class FireDanger {
 	/**
 	 * Calculate dryng factor.
 	 *
-	 * @return the double
+	 * @return the double drying factor based on Fuel Moisture and Array D
 	 */
 	private double calculateDryngFactor() {
 		// TODO Auto-generated method stub
@@ -497,7 +514,7 @@ public class FireDanger {
 	/**
 	 * Calculate fine fuel moisture.
 	 *
-	 * @return the double
+	 * @return the double Fine fuel Moisture based on dry- wet  and array C.
 	 */
 	private double calculateFineFuelMoisture() {
 		// TODO Auto-generated method stub
@@ -522,7 +539,7 @@ public class FireDanger {
 	/**
 	 * Calculate build up index.
 	 *
-	 * @return the double
+	 * @return the double new BuildIup Index based on current BUI and precipitation
 	 */
 	private double calculateBuildUpIndex() {
 		// TODO Auto-generated method stub
@@ -533,7 +550,7 @@ public class FireDanger {
 	}
 
 	/**
-	 * Finalize danger.
+	 * Finalize danger. Print all input and output values on screen.
 	 */
 	private void finalizeDanger() {
 		// TODO Auto-generated method stub
@@ -562,7 +579,7 @@ public class FireDanger {
 	/**
 	 * Gets the df.
 	 *
-	 * @return the df
+	 * @return the Drying Factor 
 	 */
 	public double getDf() {
 		return df;
@@ -571,61 +588,61 @@ public class FireDanger {
 	/**
 	 * Sets the df.
 	 *
-	 * @param df the new df
+	 * @param df the new Drying Factor 
 	 */
 	public void setDf(double df) {
 		this.df = df;
 	}
 	
 	/**
-	 * Gets the ffm.
+	 * Gets the Fine Fuel Factor.
 	 *
-	 * @return the ffm
+	 * @return the Fine Fuel Moisture
 	 */
 	public double getFfm() {
 		return ffm;
 	}
 	
 	/**
-	 * Sets the ffm.
+	 * Sets the Fine Fuel Factor.
 	 *
-	 * @param ffm the new ffm
+	 * @param ffm the new Fine Fuel Moisture
 	 */
 	public void setFfm(double ffm) {
 		this.ffm = ffm;
 	}
 	
 	/**
-	 * Gets the adfm.
+	 * Gets the Adjusted Fine Fuel Moisture.
 	 *
-	 * @return the adfm
+	 * @return the adfm Adjusted Fine Fuel Moisture
 	 */
 	public double getAdfm() {
 		return adfm;
 	}
 	
 	/**
-	 * Sets the adfm.
+	 * Sets the Adjusted Fine Fuel Moisture.
 	 *
-	 * @param adfm the new adfm
+	 * @param adfm the new adfm Adjusted Fine Fuel Moisture
 	 */
 	public void setAdfm(double adfm) {
 		this.adfm = adfm;
 	}
 
 	/**
-	 * Gets the fload.
+	 * Gets the fload Fire Load Rating.
 	 *
-	 * @return the fload
+	 * @return the fload Fire Load Rating
 	 */
 	public double getFload() {
 		return fload;
 	}
 
 	/**
-	 * Sets the fload.
+	 * Sets the fload Fire Load Rating.
 	 *
-	 * @param fload the new fload
+	 * @param fload the new fload Fire Load Rating
 	 */
 	public void setFload(double fload) {
 		this.fload = fload;
@@ -668,27 +685,27 @@ public class FireDanger {
 	}
 
 	/**
-	 * Gets the precip.
+	 * Gets the precipitation.
 	 *
-	 * @return the precip
+	 * @return the precip precipitation
 	 */
 	public double getPrecip() {
 		return precip;
 	}
 
 	/**
-	 * Sets the precip.
+	 * Sets the precipitation.
 	 *
-	 * @param precip the new precip
+	 * @param precip the new precipitation
 	 */
 	public void setPrecip(double precip) {
 		this.precip = precip;
 	}
 
 	/**
-	 * Sets the buo.
+	 * Sets the buo  BuildUp Index.
 	 *
-	 * @param buo the new buo
+	 * @param buo the new buo  BuildUp Index
 	 */
 	public void setBuo( double buo) {
 		// TODO Auto-generated method stub
@@ -697,9 +714,9 @@ public class FireDanger {
 	}
 	
 	/**
-	 * Gets the buo.
+	 * Gets the buo  BuildUp Index.
 	 *
-	 * @return the buo
+	 * @return the buo  BuildUp Index
 	 */
 	public double getBuo()
 	{
@@ -728,9 +745,9 @@ public class FireDanger {
 	}
 
 	/**
-	 * Gets the diff.
+	 * Gets the diff difference between dry -wet.
 	 *
-	 * @return the diff
+	 * @return the diff difference between dry -wet
 	 */
 	public double getDiff()
 	{
@@ -760,9 +777,9 @@ public class FireDanger {
 	}
 
 	/**
-	 * Sets the diff.
+	 * Sets the diff difference between dry -wet.
 	 *
-	 * @param diff the new diff
+	 * @param diff the new diff difference between dry -wet
 	 */
 	public void setDiff(double diff) {
 		// TODO Auto-generated method stub
@@ -771,36 +788,29 @@ public class FireDanger {
 	}
 
 	/**
-	 * Gets the iherb.
+	 * Gets the iherb herb stage.
 	 *
-	 * @return the iherb
+	 * @return the iherb herb stage
 	 */
 	public double getIherb() {
 		return iherb;
 	}
 
 	/**
-	 * Sets the iherb.
+	 * Sets the iherb herb stage.
 	 *
-	 * @param iherb the new iherb
+	 * @param iherb the new iherb herb stage
 	 */
 	public void setIherb(double iherb) {
 		this.iherb = iherb;
 		
-		//adding a comment here
-		
-		//ther comment added
-		
-		//one more comment
-		
-		//other comment
-		
-		//comment 5
+	
 	}
 	
 	/**
-	 * 
-	 * @param x
+	 * Sets the wind.
+	 *
+	 * @param wind the new wind
 	 */
 	public void setWind(double wind) {
 		// TODO Auto-generated method stub
@@ -817,7 +827,7 @@ public class FireDanger {
 		return wind;
 	}
 	
-	//adding a comment
+	
 	
 
 }

@@ -1,12 +1,54 @@
+/*Copyright (c) 2016 - $(year), $(author), All rights reserved
+ * 
+ *<p>
+
+ *This is a reengineering work from Fortran 77 to Java to calculate the National Fire Danger ratings and Fire Load Index..
+ *this program is developed according to the Java Programming Style Guidelines and
+ *Maintainable Java code recommendation discussed in class COSC 603 - Software Testing  and Maintenance 
+ *
+ */
 package com.COSC603.FireDanger;
-import java.io.*; 
-import java.util.*;
+
+
+// TODO: Auto-generated Javadoc
+
+/**
+ * The Class FireIndexes.
+ * 
+ * 
+ *@author   Marlene R. Encinas
+ *@version  1.0
+ *@since    February 26 2016
+ *<p>
+ *Contains the main method. This class uses FireDander class to calculate the fire  danger indexes and fire load index.
+ *<BR> Input parameters for calculation are:<BR>
+ * dry : dry bulb temperature <BR>
+ * wet : wet bulb temperature <BR>
+ * isnow : if snow in the ground <BR>
+ * wind :  current wind speed (mph)<BR>
+ * buo: last values of the buildup index<BR>
+ * iherb: current herb state of the district 1= cured;2= transition; 3 = green
+		<BR>
+ * Output parameters are:<BR>
+ * df : drying factor,<BR>
+ * ffm: fine fuel moisture<BR>
+ * adfm: adjusted (10 day lag) fuel moisture<BR>
+ * grass: grass spread index<BR>
+ * timber: timber spread index<BR>
+ * fload: fire load rating (max-hour base)<BR>
+ * buo: New value of the buildup index <BR>
+		
+ */
+ 
 public class FireIndexes {
 	
 
 	/**
 	 * The main method.
-	 *
+	 * Initialize all input variables.
+	 * Creates an instance of  FireDaner class to calculate
+	 * the National Fire Danger ratings and Fire Load Index
+	 * and printout all input and output parameters.
 	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
@@ -15,144 +57,42 @@ public class FireIndexes {
 		
 		 FireDanger fireDanger = new FireDanger();
 		
-	
-		
-		
-		
-		//reading data used in computing the danger ratings
-		BufferedReader reader =null;
-		String str;
-		Vector<Vector<Double>> data = new Vector<Vector<Double>>();
-		try {
-			//reader
-			//= new BufferedReader (new FileReader("C:\\Users\\Marlene\\Documents\\GitHub\\COSC603-Encinas2-Project1\\com.COSC603.FireDanger\\src\\com\\COSC603\\FireDanger\\Data.txt"));
-		
-			// retrieving data from a text file and placing into a vector of vectors called data
-			reader = new BufferedReader (new FileReader("C:\\Users\\Marlene\\Desktop\\Data.txt"));
-		
-		while((str=reader.readLine())!=null)
-			
-		{
-			String[] values = str.trim().split(",");
-			 Vector<Double> row = new Vector<Double>();
-			 
-			 //convert each row read into single values of Double type and adding them to vector called row.
-			 for(int i = 0;i < values.length;i++) {
-			       row.add(Double.parseDouble(values[i]));
-			       System.out.print(row + " ");
-			       
-			 }
-			 //placing each row read into a vector called data
-			 data.add(row);
-			 System.out.println();
-			
-			
-		}
-		reader.close();
-		
-		System.out.println("the elements of vector data are: " + data);
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		
-		Enumeration<Vector<Double>> e=data.elements();
-	//	  System.out.println("The elements of vector: " + data);
-		int count = 0;
-		  while(e.hasMoreElements()){
-			  count++;
-			  Vector<Double> row2 = new Vector<Double>(); 
-			  row2.addAll(e.nextElement());
-			  System.out.println("The elements are: " + row2);
-		  
-			 if (count == 1) //fill A array
-			  {
-				 for (int i= 0;i < row2.size();i++)
-				  {
-					  Double dNum = row2.elementAt(i);
-					  
-					  System.out.println("The number dNum inside e are: " + dNum);
-					  fireDanger.A[i] = dNum;
-				  }
-				 for (int j = 0; j < fireDanger.A.length ; j++ )
-				 {
-					 System.out.println("The Array inside A are: " + fireDanger.A[j]);
-				 }	  
-				  
-			  }
-			 else if (count == 2 ) //fill B array
-			 {
-				 for (int i= 0;i < row2.size();i++)
-			  {
-				  Double dNum = row2.elementAt(i);
-				  System.out.println("The number dNum inside e are: " + dNum);
-				  fireDanger.B[i] = dNum;
-			  }
-				 
-				 for (int j = 0; j < fireDanger.B.length ; j++ )
-				 {
-					 System.out.println("The Array inside B are: " + fireDanger.B[j]);
-				 }
-				 
-			 }
-			 else if (count == 3 ) //fill C array
-			 {
-				 for (int i= 0;i < row2.size();i++)
-				  {
-					  Double dNum = row2.elementAt(i);
-					  System.out.println("The number dNum inside e are: " + dNum);
-					  
-					  fireDanger.C[i] = dNum;
-				  }
-				 
-				 for (int j = 0; j < fireDanger.C.length ; j++ )
-				 {
-					 System.out.println("The Array inside C are: " + fireDanger.C[j]);
-				 } 
-				 
-			 }
-			 else if (count == 4 ) //fill D array
-			 {
-				 for (int i= 0;i < row2.size();i++)
-				  {
-					  Double dNum = row2.elementAt(i);
-					  System.out.println("The number dNum inside e are: " + dNum);
-					  fireDanger.D[i] = dNum;
-					  
-				  }
-				 
-				 for (int j = 0; j < fireDanger.D.length ; j++ )
-				 {
-					 System.out.println("The Array inside D are: " + fireDanger.D[j]);
-				 } 
-			 }
-			 
-		  //reading each single element
-	/*	  
-			  for (int i= 0;i < row2.size();i++)
-			  {
-				  Double dNum = row2.elementAt(i);
-				  System.out.println("The number dNum inside e are: " + dNum);
-			  }
-		*/ 
-		  
-		}
+		 // Initializing data used in computing the danger ratings
+		 //Parameter Array A
+		 fireDanger.A[0]= -0.185900;
+		 fireDanger.A[1]= -0.85900;
+		 fireDanger.A[2]= -0.059660;
+		 fireDanger.A[3]= -0.77373;
 		 
-		  
-		  //Initializing Spread Index arrays
+		 //Parameter Array B
+		 fireDanger.B[0]= 30.0;
+		 fireDanger.B[1]= 19.2;
+		 fireDanger.B[2]= 13.8;
+		 fireDanger.B[3]= 22.5;
+		 
+		 //Parameter Array C
+		 fireDanger.C[0]= 4.5;
+		 fireDanger.C[1]= 12.5;
+		 fireDanger.C[2]= 27.5;
+		 
+		 //Parameter Array D
+		 fireDanger.D[0]= 16.0;
+		 fireDanger.D[1]= 10.0;
+		 fireDanger.D[2]= 7.0;
+		 fireDanger.D[3]= 5.0;
+		 fireDanger.D[4]= 4.0;
+		 fireDanger.D[5]= 3.0;
+		 
+				  
+		 //Initializing Spread Index arrays
 		  
 		 fireDanger.SpreadA[0] = 0.01312;
 		 fireDanger.SpreadA[1] = 0.009184;
 		 fireDanger.SpreadB[0] = 6.0;
 		 fireDanger.SpreadB[1] = 14.4;
-				
-								 
-		 //Start calculations						 
+		  
+		 //initializing variables
 		  fireDanger.setIsnow(0);
-		//initializing variables
 		  fireDanger.setFfm(99.0);//ffm=99.0;
 		  fireDanger.setAdfm(99.0);// = 99.0;
 		  fireDanger.setDf(0.0); //= 0;
@@ -174,20 +114,9 @@ public class FireIndexes {
 		   dry = fireDanger.getDry();
 		   fireDanger.setDiff(dry - wet);
 		   fireDanger.setWind(14);
-		   
-		   
-		 
-		  //fine fuel moisture =20%
-		  /*
-		   * Fine-fuel moisture is strongly influenced by rainfall, relative humidity,
-		   *  and temperature. The preferred range in actual (not calculated) 
-		   *  fine-fuel moisture of the upper litter layer
-		   *   (the surface layer of freshly fallen needles and leaves) is from  10 to 20 percent. Burning when fine-fuel moisture is below 6 or 7 percent can result in damage to plant roots and even the soil. When fine-fuel moisture approaches 30 percent, fires tend to burn slowly and irregularly, often resulting in incomplete burns that do not meet the desired objectives. However, when areas with very heavy fuel buildups or extensive draped fuels are burned, moisture content should be 20 to 25 percent to keep fire intensity manageable, especially if aerial ignition techniques are used.
-		   */
-		  //dry =
-		 
 		   fireDanger.setIherb(2.0); //	current herb state of the district 1= cured;2= transition; 3 = green
 		 
+		   //Calculate Indexes and display them
 			fireDanger.calculateFireDanger();
 	}
 }
