@@ -25,6 +25,8 @@ import java.lang.Math;
  */
 public class FireDanger {
 	
+	private FireDangerProduct fireDangerProduct = new FireDangerProduct();
+
 	/** The M length.Define size for Array A and B */
 	public static int MLength = 4;
 	
@@ -219,8 +221,8 @@ public class FireDanger {
 					
 					if ( wind < 14)
 					{
-						this.timber = calculateTimber(i);
-						this.grass = calculateGrass(i);
+						this.timber = fireDangerProduct.calculateTimber(i, SpreadA, wind, SpreadB, adfm);
+						this.grass = fireDangerProduct.calculateGrass(i, SpreadA, wind, SpreadB, ffm);
 						
 						if (timber <=1)
 						
@@ -242,8 +244,8 @@ public class FireDanger {
 					{
 						//wind > 14
 						i++;
-						this.timber = calculateTimber(i);
-						this.grass = calculateGrass(i);
+						this.timber = fireDangerProduct.calculateTimber(i, SpreadA, wind, SpreadB, adfm);
+						this.grass = fireDangerProduct.calculateGrass(i, SpreadA, wind, SpreadB, ffm);
 						
 						if (grass > 99.0)
 							
@@ -318,7 +320,7 @@ public class FireDanger {
 					
 					if ( wind < 14)
 					{
-						this.grass = calculateGrass(i);
+						this.grass = fireDangerProduct.calculateGrass(i, SpreadA, wind, SpreadB, ffm);
 						
 						if (timber <=1)
 						
@@ -337,7 +339,7 @@ public class FireDanger {
 					{
 						//wind > 14
 						i++;
-						this.grass = calculateGrass(i);
+						this.grass = fireDangerProduct.calculateGrass(i, SpreadA, wind, SpreadB, ffm);
 						
 						if (grass > 99.0)
 							
@@ -402,41 +404,6 @@ public class FireDanger {
 		
 		
 		return 1.75* Math.log10(timber) + 0.32*Math.log10(buo) - 1.640;
-	}
-
-	/**
-	 * Calculate timber.
-	 *
-	 * @param i the element position in Array A and B to be used in calculation
-	 * @return the double timber
-	 */
-	private double calculateTimber(int i) {
-		// TODO Auto-generated method stub
-		
-		double timber2;
-		timber2 = this.SpreadA[i]*(wind + SpreadB[i])*Math.pow((33.0 - this.adfm),1.65) - 3;
-		
-		return timber2;
-		
-	}
-
-	/**
-	 * Calculate grass.
-	 *
-	 * @param i theelement position in Array A and B to be used in calculation
-	 * @return the double grass
-	 */
-	private double calculateGrass(int i) {
-		// TODO Auto-generated method stub
-
-		
-		double grass2;
-		grass2 = this.SpreadA[i]*(wind + SpreadB[i])*Math.pow((33.0 - this.ffm),1.65) - 3;
-		
-		return grass2;
-		
-		
-		
 	}
 
 	/**
